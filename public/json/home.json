@@ -1,0 +1,198 @@
+{
+  "header": {
+    "navLinks": [
+      { "label": "Home", "href": "/" },
+      { "label": "Attendance", "href": "/attendance" },
+      { "label": "Dashboard", "href": "/dashboard" }
+    ],
+    "navigation": {
+      "navigateLogin": {
+        "label": "Login",
+        "href": "/login"
+      },
+      "navigateSignup": {
+        "label": "Signup",
+        "href": "/signup"
+      }          
+    }
+  },
+
+  "footer": {
+    "footerData": [
+      {
+        "title": "Product",
+        "links": [
+          {
+            "name": "Overview",
+            "href": "#"
+          },
+          {
+            "name": "Features",
+            "href": "#"
+          },
+          {
+            "name": "Solutions",
+            "href": "#"
+          },
+          {
+            "name": "Tutorials",
+            "href": "#"
+          },
+          {
+            "name": "Pricing",
+            "href": "#"
+          },
+          {
+            "name": "Releases",
+            "href": "#"
+          }
+        ]
+      },
+      {
+        "title": "Servers",
+        "links": [
+          {
+            "name": "About Us",
+            "href": "#"
+          },
+          {
+            "name": "Careers",
+            "href": "#"
+          },
+          {
+            "name": "Press",
+            "href": "#"
+          },
+          {
+            "name": "News",
+            "href": "#"
+          },
+          {
+            "name": "Media Kit",
+            "href": "#"
+          },
+          {
+            "name": "Contact",
+            "href": "#"
+          }
+        ]
+      },
+      {
+        "title": "Resources",
+        "links": [
+          {
+            "name": "Blog",
+            "href": "#"
+          },
+          {
+            "name": "Newsletter",
+            "href": "#"
+          },
+          {
+            "name": "Events",
+            "href": "#"
+          },
+          {
+            "name": "Help Centre",
+            "href": "#"
+          },
+          {
+            "name": "Tutorials",
+            "href": "#"
+          },
+          {
+            "name": "Support",
+            "href": "#"
+          }
+        ]
+      },
+      {
+        "title": "Use Cases",
+        "links": [
+          {
+            "name": "Startups",
+            "href": "#"
+          },
+          {
+            "name": "Enterprise",
+            "href": "#"
+          },
+          {
+            "name": "Government",
+            "href": "#"
+          },
+          {
+            "name": "SaaS",
+            "href": "#"
+          },
+          {
+            "name": "Marketplaces",
+            "href": "#"
+          },
+          {
+            "name": "Ecommerce",
+            "href": "#"
+          }
+        ]
+      },
+      {
+        "title": "Social",
+        "links": [
+          {
+            "name": "Twitter",
+            "href": "#"
+          },
+          {
+            "name": "LinkedIn",
+            "href": "#"
+          },
+          {
+            "name": "Facebook",
+            "href": "#"
+          },
+          {
+            "name": "GitHub",
+            "href": "#"
+          },
+          {
+            "name": "AngelList",
+            "href": "#"
+          },
+          {
+            "name": "Dribble",
+            "href": "#"
+          }
+        ]
+      },
+      {
+        "title": "Legal",
+        "links": [
+          {
+            "name": "Terms",
+            "href": "#"
+          },
+          {
+            "name": "Privacy",
+            "href": "#"
+          },
+          {
+            "name": "Cookies",
+            "href": "#"
+          },
+          {
+            "name": "Licenses",
+            "href": "#"
+          },
+          {
+            "name": "Settings",
+            "href": "#"
+          },
+          {
+            "name": "Contact",
+            "href": "#"
+          }
+        ]
+      }
+    ]
+  }
+}
