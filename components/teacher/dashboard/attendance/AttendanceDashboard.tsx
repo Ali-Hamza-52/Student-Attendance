@@ -47,7 +47,7 @@ const AttendanceDashboard = () => {
         </div>
 
         {/* Controls */}
-        <div className="p-4 flex items-center justify-between">
+        {/* <div className="p-4 flex items-center justify-between">
           <div className="flex items-center gap-4">
             <span className="text-gray-600">53 students</span>
             <div className="flex items-center gap-2">
@@ -79,7 +79,7 @@ const AttendanceDashboard = () => {
               <Settings2 className="h-4 w-4" />
             </button>
           </div>
-        </div>
+        </div> */}
 
         {/* Attendance Table */}
         <div className="overflow-x-auto">
