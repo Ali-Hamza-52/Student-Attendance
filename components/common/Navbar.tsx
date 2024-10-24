@@ -34,7 +34,7 @@ const Navbar = () => {
   };
 
   return (
-    <header className="sticky top-0 z-50 flex w-full justify-between gap-4 bg-gray-800 px-8 py-3">
+    <header className="sticky top-0 z-50  flex w-full justify-between gap-4 bg-gray-800 px-8 py-5 md:py-3">
       <div className="flex items-center justify-center gap-8">
         <Image
           alt="logo-image"
