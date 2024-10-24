@@ -16,7 +16,7 @@ const Dashboard = () => {
   return (
     <SectionWrapper>
       <HeroBanner />
-      <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-5 gap-4">
+      <div className="grid grid-cols-2 md:grid-cols-4 gap-4">
         <Link href={"/dashboard/attendance"}>
           <div className="bg-[#ff742e] text-white flex flex-col gap-14 rounded-2xl p-5">
             <div className="p-2 rounded-xl bg-[#ffa77b] w-fit">
@@ -53,20 +53,7 @@ const Dashboard = () => {
               </Typography>
             </div>
           </div>
-        </Link>
-        <Link href={"/dashboard/course"}>
-          <div className="bg-[#70853b] flex flex-col gap-14 text-white rounded-2xl p-5">
-            <div className="p-2 rounded-xl bg-[#95a36f] w-fit">
-              <BookOpen size={25} />
-            </div>
-
-            <div>
-              <Typography variant="h5" weight="semiBold" className="text-white">
-                Course
-              </Typography>
-            </div>
-          </div>
-        </Link>
+        </Link> 
         <Link href={"/dashboard/report"}>
           <div className="bg-[#f9a90e] flex flex-col gap-14 text-white rounded-2xl p-5">
             <div className="p-2 rounded-xl bg-[#fbc967] w-fit">

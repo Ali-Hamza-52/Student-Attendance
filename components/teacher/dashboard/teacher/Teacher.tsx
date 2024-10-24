@@ -3,15 +3,17 @@ import { UserRoundMinus, UserRoundPen } from "lucide-react";
 import React from "react";
 import TeacherForm from "./TeacherDetail";
 import { Typography } from "@/components/ui/typography";
+import Link from "next/link";
+import DeleteTeacher from "./DeleteTeacher";
 
 const Teacher = () => {
   return (
     <SectionWrapper>
       <div className="flex items-center justify-between py-4">
         <Typography weight="bold" className="text-white">Teachers</Typography>
-          <button className="py-2 px-4 flex gap-2 rounded-full text-sm font-medium text-white bg-blue-500 hover:bg-blue-600">
+          <Link href={'/dashboard/teacher/add'} className="py-2 px-4 flex gap-2 rounded-full text-sm font-medium text-white bg-blue-500 hover:bg-blue-600">
             <UserRoundPen size={20} /> Add Teacher
-          </button>
+          </Link>
       </div>
       <div className="relative overflow-x-auto shadow-md sm:rounded-lg">
         <table className="w-full text-base text-left rtl:text-right text-gray-500 dark:text-gray-400">
@@ -48,14 +50,12 @@ const Teacher = () => {
                 <TeacherForm />
               </td>
               <td className="px-6 py-4">
-                <button className="p-2 rounded-full flex justify-center items-center text-sm font-medium text-white bg-gray-500  hover:bg-gray-600 ">
+                <Link href={'/dashboard/teacher/update'} className="p-2 w-fit rounded-full flex justify-center items-center text-sm font-medium text-white bg-gray-500  hover:bg-gray-600 ">
                   <UserRoundPen size={15} />
-                </button>
+                </Link>
               </td>
               <td className="px-6 py-4 text-right">
-                <button className="p-2 rounded-full flex justify-center items-center text-sm font-medium text-white bg-red-500  hover:bg-red-600 ">
-                  <UserRoundMinus size={15} />
-                </button>
+               <DeleteTeacher />
               </td>
             </tr>
           </tbody>

@@ -32,18 +32,18 @@ export const Typography = <T extends React.ElementType = 'p'>({
   const typographyVariants = cva('not-italic text-white', {
     variants: {
       variant: {
-        h1: 'text-foreground text-xl sm:text-4xl md:text-6xl',
-        h2: 'text-foreground text-xl sm:text-3xl md:text-5xl',
-        h3: 'text-foreground text-lg sm:text-2xl md:text-4xl',
-        h4: 'text-foreground text-lg sm:text-xl md:text-3xl',
-        h5: 'text-foreground text-lg sm:text-xl md:text-2xl',
-        t1: 'text-foreground text-lg md:text-xl',
-        t2: 'text-foreground text-base md:text-lg',
-        t3: 'text-foreground text-base',
-        t4: 'text-foreground text-sm',
-        t5: 'text-foreground text-xs',
-        t6: 'text-foreground text-[0.625rem] leading-[0.75rem]',
-        t7: 'text-foreground text-[0.5rem] leading-[0.5rem]'
+        h1: 'text-white text-xl sm:text-4xl md:text-6xl',
+        h2: 'text-white text-xl sm:text-3xl md:text-5xl',
+        h3: 'text-white text-lg sm:text-2xl md:text-4xl',
+        h4: 'text-white text-lg sm:text-xl md:text-3xl',
+        h5: 'text-white text-lg sm:text-xl md:text-2xl',
+        t1: 'text-white text-lg md:text-xl',
+        t2: 'text-white text-base md:text-lg',
+        t3: 'text-white text-base',
+        t4: 'text-white text-sm',
+        t5: 'text-white text-xs',
+        t6: 'text-white text-[0.625rem] leading-[0.75rem]',
+        t7: 'text-white text-[0.5rem] leading-[0.5rem]'
       },
       weight: {
         regular: 'font-normal',
