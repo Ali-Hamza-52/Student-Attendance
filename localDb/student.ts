@@ -2,6 +2,7 @@ interface Student {
   id: string;
   name: string;
   avatar: string;
+  rollNumber : string;
   records: Record<string, AttendanceStatus>;
 }
 type AttendanceStatus = 'P' | 'A' | 'L' | 'WK' | 'HL' | 'CL' | 'PL';
@@ -9,61 +10,8 @@ type AttendanceStatus = 'P' | 'A' | 'L' | 'WK' | 'HL' | 'CL' | 'PL';
 export const students: Student[] = [
   {
     id: '27',
-    name: 'ALI HAMZA',
-    avatar: '/images/ali.png',
-    records: {
-      '1': 'P',
-      '2': 'P',
-      '3': 'A',
-      '4': 'P',
-      '5': 'P',
-      '6': 'P',
-      '7': 'A',
-      '8': 'P',
-      '9': 'WK',
-      '10': 'P',
-      // rest of the month
-    },
-  },
-  {
-    id: '27',
-    name: 'ALI HAMZA',
-    avatar: '/images/ali.png',
-    records: {
-      '1': 'P',
-      '2': 'P',
-      '3': 'A',
-      '4': 'P',
-      '5': 'P',
-      '6': 'P',
-      '7': 'A',
-      '8': 'P',
-      '9': 'WK',
-      '10': 'P',
-      // rest of the month
-    },
-  },
-  {
-    id: '27',
-    name: 'ALI HAMZA',
-    avatar: '/images/ali.png',
-    records: {
-      '1': 'P',
-      '2': 'P',
-      '3': 'A',
-      '4': 'P',
-      '5': 'P',
-      '6': 'P',
-      '7': 'A',
-      '8': 'P',
-      '9': 'WK',
-      '10': 'P',
-      // rest of the month
-    },
-  },
-  {
-    id: '27',
-    name: 'ALI HAMZA',
+    rollNumber : '27',
+    name: 'Ali Hamza',
     avatar: '/images/ali.png',
     records: {
       '1': 'P',
@@ -81,6 +29,8 @@ export const students: Student[] = [
   },
   {
     id: '1',
+
+rollNumber : '1',
     name: 'Umair Abid',
     avatar: '/images/ali.png',
     records: {
@@ -98,6 +48,8 @@ export const students: Student[] = [
   },
   {
     id: '2',
+
+rollNumber : '2',
     name: 'Waleed Abdullah',
     avatar: '/images/ali.png',
     records: {
@@ -115,6 +67,8 @@ export const students: Student[] = [
   },
   {
     id: '3',
+
+rollNumber : '3',
     name: 'Zubaida bibi',
     avatar: '/images/ali.png',
     records: {
@@ -132,6 +86,8 @@ export const students: Student[] = [
   },
   {
     id: '4',
+
+rollNumber : '4',
     name: 'Muhammad Sufyan',
     avatar: '/images/ali.png',
     records: {
@@ -149,6 +105,8 @@ export const students: Student[] = [
   },
   {
     id: '5',
+
+rollNumber : '5',
     name: 'Nimra Rasheed',
     avatar: '/images/ali.png',
     records: {
@@ -166,6 +124,8 @@ export const students: Student[] = [
   },
   {
     id: '6',
+
+rollNumber : '6',
     name: 'Fakhra-E-Sadia',
     avatar: '/images/ali.png',
     records: {
@@ -183,6 +143,8 @@ export const students: Student[] = [
   },
   {
     id: '7',
+
+rollNumber : '7',
     name: 'Usama Javed',
     avatar: '/images/ali.png',
     records: {
@@ -200,6 +162,8 @@ export const students: Student[] = [
   },
   {
     id: '8',
+
+rollNumber : '8',
     name: 'Sidra Anwar',
     avatar: '/images/ali.png',
     records: {
@@ -217,6 +181,8 @@ export const students: Student[] = [
   },
   {
     id: '9',
+
+rollNumber : '9',
     name: 'Muhammad IRFAN',
     avatar: '/images/ali.png',
     records: {
@@ -234,6 +200,7 @@ export const students: Student[] = [
   },
   {
     id: '10',
+    rollNumber : '10',
     name: 'Shahzaib',
     avatar: '/images/ali.png',
     records: {
@@ -251,6 +218,7 @@ export const students: Student[] = [
   },
   {
     id: '11',
+    rollNumber : '11',
     name: 'Maryam Naveed',
     avatar: '/images/ali.png',
     records: {
@@ -269,6 +237,7 @@ export const students: Student[] = [
   },
   {
     id: '12',
+    rollNumber : '12',
     name: 'Ansa Saleem',
     avatar: '/images/ali.png',
     records: {
@@ -287,6 +256,7 @@ export const students: Student[] = [
   },
   {
     id: '13',
+    rollNumber : '13',
     name: 'Azan Sagheer',
     avatar: '/images/ali.png',
     records: {
@@ -305,6 +275,7 @@ export const students: Student[] = [
   },
   {
     id: '14',
+    rollNumber : '14',
     name: 'Ali Hussnain',
     avatar: '/images/ali.png',
     records: {
@@ -323,6 +294,7 @@ export const students: Student[] = [
   },
   {
     id: '15',
+    rollNumber : '15',
     name: 'Humna Mustafa',
     avatar: '/images/ali.png',
     records: {
@@ -341,6 +313,7 @@ export const students: Student[] = [
   },
   {
     id: '16',
+    rollNumber : '16',
     name: 'Muhammad Ramzan',
     avatar: '/images/ali.png',
     records: {
@@ -359,6 +332,7 @@ export const students: Student[] = [
   },
   {
     id: '17',
+    rollNumber : '17',
     name: 'Ayesha Sajid',
     avatar: '/images/ali.png',
     records: {
@@ -377,6 +351,7 @@ export const students: Student[] = [
   },
   {
     id: '18',
+    rollNumber : '18',
     name: 'Tehreem Imran',
     avatar: '/images/ali.png',
     records: {
@@ -395,6 +370,7 @@ export const students: Student[] = [
   },
   {
     id: '19',
+    rollNumber : '19',
     name: 'Nimra Akram',
     avatar: '/images/ali.png',
     records: {
@@ -413,6 +389,7 @@ export const students: Student[] = [
   },
   {
     id: '20',
+    rollNumber : '20',
     name: 'Naila Parveen',
     avatar: '/images/ali.png',
     records: {
@@ -431,6 +408,7 @@ export const students: Student[] = [
   },
   {
     id: '21',
+    rollNumber : '21',
     name: 'Sadaat Sajid',
     avatar: '/images/ali.png',
     records: {
@@ -449,6 +427,7 @@ export const students: Student[] = [
   },
   {
     id: '22',
+    rollNumber : '22',
     name: 'Tajammal Hussain',
     avatar: '/images/ali.png',
     records: {
@@ -467,6 +446,7 @@ export const students: Student[] = [
   },
   {
     id: '23',
+    rollNumber : '23',
     name: 'M. Zohaib AsIam',
     avatar: '/images/ali.png',
     records: {
@@ -485,6 +465,7 @@ export const students: Student[] = [
   },
   {
     id: '24',
+    rollNumber : '24',
     name: 'Zohra Shahid',
     avatar: '/images/ali.png',
     records: {
@@ -503,6 +484,7 @@ export const students: Student[] = [
   },
   {
     id: '25',
+    rollNumber : '25',
     name: 'Zaheer Abass',
     avatar: '/images/ali.png',
     records: {
@@ -521,6 +503,7 @@ export const students: Student[] = [
   },
   {
     id: '26',
+    rollNumber : '26',
     name: 'Aliza Anwar',
     avatar: '/images/ali.png',
     records: {
@@ -539,6 +522,7 @@ export const students: Student[] = [
   },
   {
     id: '27',
+    rollNumber : '27',
     name: 'ALI HAMZA',
     avatar: '/images/ali.png',
     records: {
@@ -557,6 +541,7 @@ export const students: Student[] = [
   },
   {
     id: '28',
+    rollNumber : '28',
     name: 'Uzair Shafqat',
     avatar: '/images/ali.png',
     records: {
@@ -575,6 +560,7 @@ export const students: Student[] = [
   },
   {
     id: '29',
+    rollNumber : '29',
     name: 'Umair Shahzad',
     avatar: '/images/ali.png',
     records: {
@@ -593,6 +579,7 @@ export const students: Student[] = [
   },
   {
     id: '30',
+    rollNumber : '30',
     name: 'Areeba Zafar',
     avatar: '/images/ali.png',
     records: {

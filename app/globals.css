@@ -76,3 +76,29 @@ body {
     @apply bg-background text-foreground;
   }
 }
+/* Hide the scrollbar buttons */
+::-webkit-scrollbar-button {
+  display: none;
+}
+
+/* Set the scrollbar width */
+::-webkit-scrollbar {
+  width: 8px;  /* Width of the scrollbar */
+}
+
+/* Style the scrollbar thumb only */
+::-webkit-scrollbar-thumb {
+  background-color: #888; /* Color of the scrollbar thumb */
+  border-radius: 30px; /* Rounded edges for the thumb */
+}
+
+/* Darken the thumb on hover */
+::-webkit-scrollbar-thumb:hover {
+  background-color: #555; /* Darker color on hover */
+}
+
+/* Firefox-specific scrollbar styling */
+* {
+  scrollbar-width: thin; /* Reduces the width of the scrollbar */
+  scrollbar-color: #888 transparent; /* Color of the thumb, transparent background */
+}
