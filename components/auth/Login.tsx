@@ -5,8 +5,12 @@ import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { ScanFace } from "lucide-react";
 import { LoginFormInputs, loginSchema } from "@/schema/login";
-
+import useToast from "@/hooks/useToast";
+import { TeacherLogin } from "@/services/teacher/user";
+import { useRouter } from "next/navigation";
 const Login = () => {
+  const router = useRouter();  
+  const toast = useToast();
   const {
     register,
     handleSubmit,
@@ -16,8 +20,20 @@ const Login = () => {
     mode: "onChange", 
   });
 
-  const onSubmit = (data: LoginFormInputs) => {
-    console.log("Login data:", data);
+  const onSubmit =async (data: LoginFormInputs) => {
+    try{
+      const response = await TeacherLogin (data);
+      if(response.status === 200){
+        toast.showSuccess("Login successful!");
+        router.push("/");
+      }
+      else{
+        toast.showError("Invalid email or password. Please try again.");
+      }
+
+    }catch{
+      toast.showError("Failed to login. Please try again.");
+    }
   };
 
   return (

@@ -2,12 +2,14 @@
 
 import React from "react";
 import { useForm } from "react-hook-form";
-import { z } from "zod";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { ScanFace } from "lucide-react";
 import { SignupFormInputs, signupSchema } from "@/schema/signup";
+import { postTeacher } from "@/services/teacher/user";
+import useToast from "@/hooks/useToast";
 
 const Signup = () => {
+  const toast = useToast();
   const {
     register,
     handleSubmit,
@@ -17,22 +19,34 @@ const Signup = () => {
     mode: "onChange",
   });
 
-  const onSubmit = (data: SignupFormInputs) => {
-    console.log("Signup data:", data);
+  const onSubmit = async (data: SignupFormInputs) => {
+    try {
+      const response = await postTeacher(data);
+      console.log(response);
+      if(response.status === 200){
+        toast.showSuccess(response.message);
+      }
+
+      if(response.status === 409){
+        toast.showError("Email already in use.");
+      }
+    } catch {
+      toast.showError("An error occurred while creating the account.");
+    }
   };
 
   return (
-    <div className="max-w-lg mx-auto bg-white flex min-h-full flex-col justify-center px-6 py-12 lg:px-8 shadow-2xl rounded-3xl">
+    <div className="max-w-lg mt-5 mx-auto bg-white flex min-h-full flex-col justify-center px-6 py-6 lg:px-8 shadow-2xl rounded-3xl">
       <div className="flex justify-center">
         <ScanFace color="blue" size={35} />
       </div>
-      <h2 className="mt-5 text-center text-2xl font-bold leading-9 tracking-tight text-gray-900">
+      <h2 className="mt-2 text-center text-2xl font-bold leading-9 tracking-tight text-gray-900">
         Create your account
       </h2>
 
       <form
         onSubmit={handleSubmit(onSubmit)}
-        className="space-y-6 mt-8 sm:mx-auto sm:w-full sm:max-w-sm"
+        className="space-y-6 mt-4 sm:mx-auto sm:w-full sm:max-w-sm"
       >
         <div>
           <label
@@ -53,6 +67,28 @@ const Signup = () => {
           {errors.teacherName && (
             <p className="mt-1 text-sm text-red-500">
               {errors.teacherName.message}
+            </p>
+          )}
+        </div>
+        <div>
+          <label
+            htmlFor="teacherEmail"
+            className="block text-sm font-medium leading-6 text-gray-900"
+          >
+            Teacher Email
+          </label>
+          <input
+            id="teacherEmail"
+            {...register("email")}
+            className={`block w-full rounded-md px-3 focus-within:ring-blue-500 focus:outline-blue-500 py-1.5 shadow-sm ring-1 ring-inset sm:text-sm sm:leading-6 ${
+              errors.email
+                ? "ring-red-500 focus:ring-red-500"
+                : "ring-gray-300 focus:ring-indigo-600"
+            }`}
+          />
+          {errors.email && (
+            <p className="mt-1 text-sm text-red-500">
+              {errors.email.message}
             </p>
           )}
         </div>
@@ -199,7 +235,7 @@ const Signup = () => {
           Sign up
         </button>
       </form>
-      <p className="mt-10 text-center text-sm text-gray-500">
+      <p className="mt-3 text-center text-sm text-gray-500">
         Alread Register?
         <a
           href="/login"
