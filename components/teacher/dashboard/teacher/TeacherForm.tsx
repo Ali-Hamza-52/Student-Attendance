@@ -6,6 +6,8 @@ import { zodResolver } from '@hookform/resolvers/zod';
 import { Plus, Trash2 } from 'lucide-react';
 import { teacherSchema } from '@/schema/teacher';
 import { Typography } from '@/components/ui/typography';
+import { addTeacherCourse } from '@/services/teacher/teacherCourses';
+import useToast from '@/hooks/useToast';
 
 const DAYS_OF_WEEK = ['Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday', 'Sunday'];
 
@@ -21,6 +23,8 @@ interface TeacherFormValues {
 }
 
 const TeacherForm = () => {
+  const toast = useToast();
+
   const {
     register,
     handleSubmit,
@@ -36,9 +40,21 @@ const TeacherForm = () => {
     control,
     name: 'courses',
   });
-  const onSubmit = (data:any) => {
+  const onSubmit =async (data:any) => {
     console.log(data);
-    // Handle form submission here
+
+    try{
+      const res =await addTeacherCourse(data);
+
+      if(res.status === 200){
+        toast.showSuccess("Teacher And its Courses added successfully");
+      }
+
+    }catch{
+      toast.showError("Failed to add teacher and its courses");
+      console.error('Error occurred while submitting form');
+    }
+    
   };
 
   return (

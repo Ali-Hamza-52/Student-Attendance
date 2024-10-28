@@ -6,7 +6,6 @@ import * as argon from "argon2";
 import { User } from '@/models/User';
 import { loginTypes } from '@/types/loginType';
 import { cookies } from 'next/headers';
-import { setCookie } from '../token/tokenService';
 export const postTeacher = async (user: signuptypes) => {
     try {
         await databaseConnection();

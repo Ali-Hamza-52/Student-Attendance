@@ -5,6 +5,8 @@ import { z } from 'zod';
 import { zodResolver } from '@hookform/resolvers/zod';
 import { Plus, Trash2 } from 'lucide-react';
 import { Typography } from '@/components/ui/typography';
+import useToast from '@/hooks/useToast';
+import { addNewClass } from '@/services/class/class';
 
 // Department options
 const DEPARTMENTS = [
@@ -38,6 +40,8 @@ interface ClassFormValues {
 }
 
 const AddClass: React.FC = () => {
+  const toast = useToast();
+
   const { register, control, handleSubmit, formState: { errors } } = useForm<ClassFormValues>({
     resolver: zodResolver(classSchema),
     defaultValues: {
@@ -50,9 +54,18 @@ const AddClass: React.FC = () => {
     name: 'students',
   });
 
-  const onSubmit = (data: ClassFormValues) => {
+  const onSubmit =async (data: ClassFormValues) => {
     console.log(data);
-    // Handle form submission here
+    try{
+      const  result = await addNewClass(data);
+      if(result.status === 200){
+        toast.showSuccess("Class added successfully!");
+      }
+
+    }catch{
+      toast.showError("Failed to add class. Please try again.");
+    }
+    
   };
 
   return (
