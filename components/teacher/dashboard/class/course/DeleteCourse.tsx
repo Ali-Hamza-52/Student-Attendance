@@ -1,11 +1,11 @@
 "use client";
-import { deleteClassAndStudents } from "@/services/class/class";
-import { UserRoundMinus } from "lucide-react";
+import { removeCourse } from "@/services/course/courses";
+import { CircleMinus } from "lucide-react";
 import React from "react";
 import Swal from "sweetalert2";
 
-const DeleteClass = ({id}:{id:String}) => {
-  const deleteClass = () => {
+const DeleteCourse = ({id}:{id:String}) => {
+  const deleteCourse = () => {
     Swal.fire({
       title: "Are you sure?",
       text: "You won't be able to revert this!",
@@ -17,7 +17,7 @@ const DeleteClass = ({id}:{id:String}) => {
     }).then((result) => {
       if (result.isConfirmed) {
         
-        deleteClassAndStudents(id).then((result) => {
+        removeCourse(id).then((result) => {
           console.log("result: ", result)
           if (result.status === 200 || result.status === 404) {
             console.log("Class and students deleted successfully");
@@ -40,10 +40,10 @@ const DeleteClass = ({id}:{id:String}) => {
     });
   };
   return (
-    <button onClick={deleteClass} className="p-2 rounded-full flex justify-center items-center text-sm font-medium text-white bg-red-500  hover:bg-red-600 ">
-      <UserRoundMinus size={15} />
+    <button onClick={deleteCourse} className="p-2 rounded-full flex justify-center items-center text-sm font-medium text-white bg-red-500  hover:bg-red-600 ">
+      <CircleMinus size={15} />
     </button>
   );
 };
 
-export default DeleteClass;
+export default DeleteCourse;

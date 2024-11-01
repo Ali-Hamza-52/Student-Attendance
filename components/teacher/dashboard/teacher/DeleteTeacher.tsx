@@ -2,9 +2,13 @@
 import { UserRoundMinus } from "lucide-react";
 import React from "react";
 import Swal from "sweetalert2";
+import { deleteTeacher } from "@/services/teacher/user";
+import { useRouter } from "next/navigation";
 
-const DeleteTeacher = () => {
-  const deleteTeacher = () => {
+const DeleteTeacher = ({ teacherId }: { teacherId: string }) => {
+  const router = useRouter();
+
+  const teacherDeleted = () => {
     Swal.fire({
       title: "Are you sure?",
       text: "You won't be able to revert this!",
@@ -15,16 +19,40 @@ const DeleteTeacher = () => {
       confirmButtonText: "Yes, delete it!",
     }).then((result) => {
       if (result.isConfirmed) {
-        Swal.fire({
-          title: "Deleted!",
-          text: "Your file has been deleted.",
-          icon: "success",
-        });
+        // Execute deleteTeacher and handle responses
+        deleteTeacher(teacherId)
+          .then((res) => {
+            if (res.status === 200) {
+              Swal.fire({
+                title: "Deleted!",
+                text: "The teacher has been deleted.",
+                icon: "success",
+              });
+              router.push('/dashboard/teacher');
+            } else {
+              Swal.fire({
+                title: "Error",
+                text: "Failed to delete teacher",
+                icon: "error",
+              });
+            }
+          })
+          .catch(() => {
+            Swal.fire({
+              title: "Error",
+              text: "An error occurred while trying to delete the teacher.",
+              icon: "error",
+            });
+          });
       }
     });
   };
+
   return (
-    <button onClick={deleteTeacher} className="p-2 rounded-full flex justify-center items-center text-sm font-medium text-white bg-red-500  hover:bg-red-600 ">
+    <button
+      onClick={teacherDeleted}
+      className="p-2 rounded-full flex justify-center items-center text-sm font-medium text-white bg-red-500 hover:bg-red-600"
+    >
       <UserRoundMinus size={15} />
     </button>
   );

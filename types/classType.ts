@@ -1,12 +1,14 @@
-export interface ClassFormTypes {
+import { Document } from "mongoose";
+
+export interface ClassFormValues {
     department: string;
     className: string;
-    students: {
-      studentName: string;
-      rollNumber: string;
-      gender: string;
-      contactNumber: string;
-      address: string;
-    }[];
+    session: string;
+  }
+
+export interface IClass extends Document {
+    department: string;
+    className: string;
+    session: string;
   }
   

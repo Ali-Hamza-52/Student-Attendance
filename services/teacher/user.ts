@@ -6,6 +6,7 @@ import * as argon from "argon2";
 import { User } from '@/models/User';
 import { loginTypes } from '@/types/loginType';
 import { cookies } from 'next/headers';
+
 export const postTeacher = async (user: signuptypes) => {
     try {
         await databaseConnection();
@@ -84,7 +85,7 @@ export const getTeacherId = async (id: string) => {
         }
         return {
             status: 200,
-            teacher : {
+            teacher: {
                 email: user.email,
                 teacherName: user.teacherName,
                 address: user.address,
@@ -92,6 +93,51 @@ export const getTeacherId = async (id: string) => {
                 department: user.department
             }
         }
+    } catch {
+        return {
+            status: 500,
+            message: "Failed to connect to database",
+        };
+    }
+}
+
+export const getTeachers = async () => {
+    try {
+        await databaseConnection();
+        const teachers = await User.find({});
+        return {
+            status: 200,
+            teachers: teachers.map((teacher) => ({
+                email: teacher.email,
+                teacherName: teacher.teacherName,
+                address: teacher.address,
+                contactNumber: teacher.contactNumber,
+                department: teacher.department,
+                id: teacher._id
+            }))
+        }
+    } catch {
+        return {
+            status: 500,
+            message: "Failed to connect to database",
+        };
+    }
+}
+
+export const deleteTeacher = async (id: string) => {
+    try {
+        await databaseConnection();
+        const teacher = await User.findByIdAndDelete(id);
+        if (!teacher) {
+            return {
+                status: 404,
+                message: "Teacher not found",
+            };
+        }
+        return {
+            status: 200,
+            message: "Teacher deleted successfully",
+        };
     } catch {
         return {
             status: 500,

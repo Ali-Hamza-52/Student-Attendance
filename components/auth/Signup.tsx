@@ -7,8 +7,10 @@ import { ScanFace } from "lucide-react";
 import { SignupFormInputs, signupSchema } from "@/schema/signup";
 import { postTeacher } from "@/services/teacher/user";
 import useToast from "@/hooks/useToast";
+import { useRouter } from "next/navigation";
 
 const Signup = () => {
+  const router = useRouter();
   const toast = useToast();
   const {
     register,
@@ -25,6 +27,7 @@ const Signup = () => {
       console.log(response);
       if(response.status === 200){
         toast.showSuccess(response.message);
+        router.push("/login")
       }
 
       if(response.status === 409){

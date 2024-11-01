@@ -1,11 +1,20 @@
 import SectionWrapper from "@/components/common/SectionWrapper";
 import { Typography } from "@/components/ui/typography";
-import {  UserRoundPen } from "lucide-react";
+import {
+  BadgeMinus,
+  BadgePlus,
+  UserMinus,
+  UserPlus,
+  UserRoundPen,
+} from "lucide-react";
 import Link from "next/link";
 import React from "react";
 import DeleteClass from "./DeleteClass";
+import { getAllClasses } from "@/services/class/class";
 
-const Classes = () => {
+const Classes = async () => {
+  const allClass = await getAllClasses();
+
   return (
     <SectionWrapper>
       <div className="flex items-center justify-between py-4">
@@ -32,40 +41,77 @@ const Classes = () => {
               <th scope="col" className="px-6 text-center py-3">
                 Section
               </th>
+              <th scope="col" className="px-6 text-center py-3">
+                Students
+              </th>
               <th scope="col" className="px-6 py-3">
                 Edit
               </th>
-              <th scope="col" className="px-6 py-3">
+              <th scope="col" className="px-4  py-3">
                 Delete
               </th>
+              <th scope="col" className="px-6 py-3 text-center">Course</th>
             </tr>
           </thead>
           <tbody>
-            <tr className="bg-white border-b dark:bg-gray-800 dark:border-gray-700 hover:bg-blue-50 dark:hover:bg-gray-600">
-              <th
-                scope="row"
-                className="px-6 py-4 text-gray-900 font-bold whitespace-nowrap dark:text-white"
-              >
-                Computer Science
-              </th>
-              <td className="px-6 py-4">
-                BSIT-8
-              </td>
-              <td className="px-6 py-4 flex items-center justify-center gap-3 md:gap-10">
-                <label> 2020-2024 </label>
-              </td>
-              <td className="px-6 py-4">
-                <Link
-                  href={"/dashboard/class/update"}
-                  className="p-2 w-fit rounded-full flex justify-center items-center text-sm font-medium text-white bg-gray-500  hover:bg-gray-600 "
-                >
-                  <UserRoundPen size={15} />
-                </Link>
-              </td>
-              <td className="px-6 py-4 text-right">
-                <DeleteClass />
-              </td>
-            </tr>
+            {allClass.status === 200 &&
+              allClass.classes?.map(
+                (classData: {
+                  _id: string;
+                  department: string;
+                  className: string;
+                  session: string;
+                  __v: number;
+                }) => (
+                  <tr
+                    key={classData._id}
+                    className="bg-white border-b dark:bg-gray-800 dark:border-gray-700 hover:bg-blue-50 dark:hover:bg-gray-600"
+                  >
+                    <th
+                      scope="row"
+                      className="px-6 py-4 text-gray-900 font-bold whitespace-nowrap dark:text-white"
+                    >
+                      {classData.department}
+                    </th>
+                    <td className="px-6 py-4">{classData.className}</td>
+                    <td className="px-6 py-4">{classData.session}</td>
+
+                    <td className="px-6 py-4 flex items-center justify-center gap-3 md:gap-10">
+                      <Link href={`/dashboard/class/${classData._id}`} className="p-2 w-fit rounded-full flex justify-center items-center text-sm font-medium text-white bg-blue-500 hover:bg-blue-600">
+                        <UserPlus size={15}/>
+                      </Link>
+                      <Link href={`/dashboard/class/${classData._id}`} className="p-2 w-fit rounded-full flex justify-center items-center text-sm font-medium text-white bg-red-500 hover:bg-red-600">
+                        <UserMinus size={15}/>
+                      </Link>
+                    </td>
+                    <td className="px-6 py-4">
+                      <Link
+                        href={`/dashboard/class/update/${classData._id}`}
+                        className="p-2 w-fit rounded-full flex justify-center items-center text-sm font-medium text-white bg-blue-500 hover:bg-blue-600"
+                      >
+                        <UserRoundPen size={15} />
+                      </Link>
+                    </td>
+                    <td className="px-6 py-4 text-right">
+                      <DeleteClass id={classData._id} />
+                    </td>
+                    <td className="px-6 py-4 text-right flex items-center justify-center gap-3 md:gap-10 ">
+                      <Link
+                        href={`/dashboard/class/addCourse/${classData._id}`}
+                        className="p-2 w-fit rounded-full flex justify-center items-center text-sm font-medium text-white bg-blue-500 hover:bg-blue-600"
+                      >
+                        <BadgePlus size={15} id={classData._id} />
+                      </Link>
+                      <Link
+                        href={`/dashboard/class/updateCourse/${classData._id}`}
+                        className="p-2 w-fit rounded-full flex justify-center items-center text-sm font-medium text-white bg-red-500 hover:bg-red-600"
+                      >
+                        <BadgeMinus size={15} />
+                      </Link>
+                    </td>
+                  </tr>
+                )
+              )}
           </tbody>
         </table>
       </div>
