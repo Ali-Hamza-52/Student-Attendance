@@ -4,7 +4,7 @@ import { UserRoundMinus } from "lucide-react";
 import React from "react";
 import Swal from "sweetalert2";
 
-const DeleteClass = ({id}:{id:String}) => {
+const DeleteClass = ({id}:{id:string}) => {
   const deleteClass = () => {
     Swal.fire({
       title: "Are you sure?",

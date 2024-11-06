@@ -4,7 +4,7 @@ import { useForm, useFieldArray } from 'react-hook-form';
 
 import { zodResolver } from '@hookform/resolvers/zod';
 import { Plus, Trash2 } from 'lucide-react';
-import { teacherSchema } from '@/schema/course';
+import { courseSchema } from '@/schema/course';
 import { Typography } from '@/components/ui/typography';
 
 const DAYS_OF_WEEK = ['Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday', 'Sunday'];
@@ -27,7 +27,7 @@ const UpdateTeacher = () => {
     control,
     formState: { errors },
   } = useForm<UpdateTeacherValues>({
-    resolver: zodResolver(teacherSchema)
+    resolver: zodResolver(courseSchema)
   });
   
 

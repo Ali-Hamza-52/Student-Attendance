@@ -1,7 +1,7 @@
 "use server"
 
 import databaseConnection from "@/database/connection"
-import { TeacherCourse } from "@/models/TeacherCourse";
+import { Course } from "@/models/TeacherCourse";
 import { teacherCourseType } from "@/types/teacherCourseType";
 
 
@@ -9,7 +9,7 @@ export const  addTeacherCourse = async (data:teacherCourseType) =>{
     try{
         console.log("attendance",data)
         await databaseConnection();
-        await TeacherCourse.create(data);
+        await Course.create(data);
         return {
             status: 200,
             message: "Teacher course added successfully",

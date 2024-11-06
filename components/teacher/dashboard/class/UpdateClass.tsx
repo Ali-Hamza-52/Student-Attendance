@@ -12,10 +12,10 @@ import { useRouter } from 'next/navigation';
 
 interface UpdateClassProps {
   id: string;
-  data: {
-    department: string;
-    name: string;
-    session: string;
+  data?: {
+    department?: string;
+    name?: string;
+    session?: string;
   };
 }
 

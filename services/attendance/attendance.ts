@@ -27,7 +27,7 @@ export const addAttendance = async (attendance: AttendanceType) => {
 
         // Add attendance if no duplicate is found
         await Attendance.create({ ...attendance, date: startOfDay });
-        
+
         return {
             status: 200,
             message: "Attendance added successfully",
@@ -65,4 +65,80 @@ export const getAttendance = async (classId: string) => {
         };
     }
 
+}
+
+export const getAllCollegeAttendance = async () => {
+    try {
+        await databaseConnection();
+        const attendance = await Attendance.find({});
+        if (attendance.length == 0) {
+            return {
+                status: 404,
+                message: "No attendance records found"
+            }
+        }
+        return {
+            status: 200,
+            attendance,
+        };
+
+    } catch {
+        console.error("Error fetching all college attendance: ");
+        return {
+            success: false,
+            message: "Error fetching all college attendance",
+        };
+
+    }
+}
+
+export const getSingleClassAttendance = async (classId: string) => {
+    try {
+        await databaseConnection();
+        const attendance = await Attendance.find({ classId: classId });
+        if (attendance.length == 0) {
+            return {
+                status: 404,
+                message: "No attendance records found"
+            }
+        }
+        return {
+            status: 200,
+            attendance,
+        };
+
+    } catch {
+        console.error("Error fetching single class attendance: ");
+        return {
+            success: false,
+            message: "Error fetching single class attendance",
+        };
+    }
+}
+
+export const getAttendanceByDate = async (classId: string, date: string) => {
+    try {
+        await databaseConnection();
+        const startOfDay = new Date(date);
+        startOfDay.setHours(0, 0, 0, 0);
+        const attendance = await Attendance.find({ classId: classId, date: startOfDay });
+        if (attendance.length == 0) {
+            return {
+                status: 404,
+                message: "No attendance records found for the given date"
+            }
+        
+        }
+        return {
+            status: 200,
+            attendance,
+        };
+        
+    } catch {
+        console.error("Error fetching attendance by date: ");
+        return {
+            status:500,
+            message: "Error fetching attendance by date",
+        };
+    }
 }

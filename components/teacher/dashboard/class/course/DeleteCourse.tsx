@@ -4,7 +4,7 @@ import { CircleMinus } from "lucide-react";
 import React from "react";
 import Swal from "sweetalert2";
 
-const DeleteCourse = ({id}:{id:String}) => {
+const DeleteCourse = ({id}:{id:string}) => {
   const deleteCourse = () => {
     Swal.fire({
       title: "Are you sure?",
