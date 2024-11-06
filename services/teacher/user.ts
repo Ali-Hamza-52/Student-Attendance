@@ -145,3 +145,29 @@ export const deleteTeacher = async (id: string) => {
         };
     }
 }
+
+export const getTeachersNameAndId = async () => {
+    try {
+        await databaseConnection();
+        const teachers = await User.find({});
+        if(teachers.length === 0){
+            return {
+                status: 404,
+                message: "No teachers found"
+            }
+        }
+        return {
+            status: 200,
+            data: teachers.map((teacher) => ({
+                teacherName: teacher.teacherName,
+                department: teacher.department,
+                id: teacher._id
+            }))
+        }
+    } catch {
+        return {
+            status: 500,
+            message: "Failed to connect to database",
+        };
+    }
+}

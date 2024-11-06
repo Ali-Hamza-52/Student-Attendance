@@ -11,8 +11,6 @@ import { Button } from "../ui/button";
 import { Typography } from "../ui/typography";
 import { getTeacherId } from "@/services/teacher/user";
 import { getCookies } from "@/services/token/tokenService";
-import { Avatar } from "../ui/avatar";
-import { AvatarFallback } from "@radix-ui/react-avatar";
 import UserProfile from "./UserProfile";
 
 interface UserType {

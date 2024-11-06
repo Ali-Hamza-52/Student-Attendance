@@ -4,6 +4,8 @@ export const courseSchema = z.object({
   courses: z.array(
     z.object({
       classId:z.string(),
+      teacherName:z.string().nonempty("Teacher is required"),
+      teacherId:z.string(),
       courseName: z.string().nonempty({ message: "Course name is required" }),
       startTime: z.string().nonempty({ message: "Start time is required" }),
       days: z

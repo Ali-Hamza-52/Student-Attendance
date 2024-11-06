@@ -2,15 +2,25 @@ import mongoose, { Schema, Document, Model } from 'mongoose';
 interface ICourse {
   courseName: string;
   startTime: string;
+  teacherName: string;
   days: string[];
   className: string;
   classId: string;
+  teacherId: string;
 }
 
 const courseSchema = new Schema<ICourse>({
-  classId:{
+  classId: {
     type: String,
     required: [true, 'Class ID is required'],
+  },
+  teacherName: {
+    type: String,
+    required: [true, 'Teacher ID is required'],
+  },
+  teacherId: {
+    type: String,
+    required: [true, 'Teacher ID is required'],
   },
   courseName: {
     type: String,

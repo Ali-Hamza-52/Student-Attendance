@@ -33,7 +33,7 @@ const studentSchema = new Schema<IStudent>({
     required: [true, 'Address is required'],
   },
   classId: {
-    type: Schema.Types.ObjectId,
+    type: String,
     ref: 'Class',
     required: [true, 'Class ID is required'],
   },

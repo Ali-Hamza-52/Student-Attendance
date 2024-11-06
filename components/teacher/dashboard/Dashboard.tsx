@@ -17,7 +17,7 @@ const Dashboard = () => {
     <SectionWrapper>
       <HeroBanner />
       <div className="grid grid-cols-2 md:grid-cols-4 gap-4">
-        <Link href={"/dashboard/attendance"}>
+        <Link href={"/teacherClasses"}>
           <div className="bg-[#ff742e] text-white flex flex-col gap-14 rounded-2xl p-5">
             <div className="p-2 rounded-xl bg-[#ffa77b] w-fit">
               <FileStack size={25} />

@@ -5,21 +5,17 @@ import React, { useState, useEffect } from "react";
 import { useForm, Controller } from "react-hook-form";
 import { z } from "zod";
 import { zodResolver } from "@hookform/resolvers/zod";
-import { students } from "@/localDb/student";
 import { Trash } from "lucide-react";
+import { attendanceSchema } from "@/schema/attendanceSchema";
+import useToast from "@/hooks/useToast";
+import { addAttendance } from "@/services/attendance/attendance";
 
-const attendanceSchema = z.object({
-  students: z.array(
-    z.object({
-      rollNumber: z.string(),
-      attendance: z.enum(["P", "A", "L"]).default("A"),
-    })
-  ),
-});
 
 type AttendanceFormValues = z.infer<typeof attendanceSchema>;
 
-const TakeAttendance = () => {
+const TakeAttendance = ({ students, id }: any) => {
+  const toast = useToast();
+  console.log("Student", students);
   const [mode, setMode] = useState<"card" | "console">("card");
 
   const {
@@ -31,7 +27,9 @@ const TakeAttendance = () => {
   } = useForm<AttendanceFormValues>({
     resolver: zodResolver(attendanceSchema),
     defaultValues: {
-      students: students.map((student) => ({
+      date: new Date(),
+      classId: id,
+      students: students.map((student: any) => ({
         rollNumber: student.rollNumber,
         attendance: "A",
       })),
@@ -44,13 +42,25 @@ const TakeAttendance = () => {
     (student) => student.attendance !== "A"
   );
 
-  const onSubmit = (data: AttendanceFormValues) => {
+  const onSubmit =async (data: AttendanceFormValues) => {
     console.log("Attendance Data:", data);
+    try{
+      const res = await addAttendance(data);
+      if (res.status === 200) {
+        toast.showSuccess(res.message);
+        // window.location.replace("/dashboard/class");
+      }
+      if (res.status === 409) {
+        toast.showError(res.message);
+      }
+    }catch{
+      toast.showError("Failed to add attendance");
+    }
   };
 
   const handleCancel = (rollNumber: string) => {
     const studentIndex = students.findIndex(
-      (student) => student.rollNumber === rollNumber
+      (student: any) => student.rollNumber === rollNumber
     );
     if (studentIndex !== -1) {
       setValue(`students.${studentIndex}.attendance`, "A");
@@ -74,14 +84,14 @@ const TakeAttendance = () => {
       <form onSubmit={handleSubmit(onSubmit)}>
         <div className="grid grid-cols-1 md:grid-cols-4 gap-4 py-4 md:py-6 max-h-72 sm:max-h-96 md overflow-y-auto">
           {mode === "card" ? (
-            students.map((student, index) => (
+            students.map((student: any, index: any) => (
               <div
                 key={index}
                 className="flex flex-col gap-2 bg-gray-900/90 px-4 py-3 md:px-8 md:py-6 rounded-2xl"
               >
                 <div className="flex justify-between">
                   <Typography variant="t2">{student.rollNumber}</Typography>
-                  <Typography variant="t2">{student.name}</Typography>
+                  <Typography variant="t2">{student.studentName}</Typography>
                 </div>
 
                 <div className="flex justify-between items-center">
@@ -131,7 +141,10 @@ const TakeAttendance = () => {
           )}
         </div>
 
-        <button type="submit" className="px-4 py-2 mt-4 bg-blue-600 hover:bg-blue-500 text-white rounded-full">
+        <button
+          type="submit"
+          className="px-4 py-2 mt-4 bg-blue-600 hover:bg-blue-500 text-white rounded-full"
+        >
           Submit Attendance
         </button>
       </form>
@@ -143,7 +156,10 @@ const TakeAttendance = () => {
           </Typography>
           <div className="max-h-40 overflow-y-auto grid grid-cols-2 md:grid-cols-6 gap-2 md:gap-4 py-4 md:py-6">
             {markedStudents.map((student) => (
-              <div key={student.rollNumber} className="flex justify-between bg-slate-600 px-4 py-4 rounded-3xl">
+              <div
+                key={student.rollNumber}
+                className="flex justify-between bg-slate-600 px-4 py-4 rounded-3xl"
+              >
                 <Typography weight="semiBold">
                   {student.rollNumber} | {student.attendance}
                 </Typography>

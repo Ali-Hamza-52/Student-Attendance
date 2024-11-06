@@ -1,8 +1,10 @@
 import SectionWrapper from "@/components/common/SectionWrapper";
 import { Typography } from "@/components/ui/typography";
 import {
+  ArrowUpRight,
   BadgeMinus,
   BadgePlus,
+  SquarePen,
   UserMinus,
   UserPlus,
   UserRoundPen,
@@ -103,10 +105,10 @@ const Classes = async () => {
                         <BadgePlus size={15} id={classData._id} />
                       </Link>
                       <Link
-                        href={`/dashboard/class/updateCourse/${classData._id}`}
+                        href={`/dashboard/class/detailCourse/${classData._id}`}
                         className="p-2 w-fit rounded-full flex justify-center items-center text-sm font-medium text-white bg-red-500 hover:bg-red-600"
                       >
-                        <BadgeMinus size={15} />
+                        <ArrowUpRight size={15} />
                       </Link>
                     </td>
                   </tr>
