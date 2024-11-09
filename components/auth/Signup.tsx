@@ -26,7 +26,7 @@ const Signup = () => {
       const response = await postTeacher(data);
       console.log(response);
       if(response.status === 200){
-        toast.showSuccess(response.message);
+        toast.showSuccess("Teacher registered successfully");
         router.push("/login")
       }
 

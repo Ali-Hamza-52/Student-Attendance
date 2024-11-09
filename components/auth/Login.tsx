@@ -25,7 +25,7 @@ const Login = () => {
       const response = await TeacherLogin (data);
       if(response.status === 200){
         toast.showSuccess("Login successful!");
-        router.push("/");
+        window.location.replace("/")
       }
       else{
         toast.showError("Invalid email or password. Please try again.");

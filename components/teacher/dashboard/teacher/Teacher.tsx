@@ -52,12 +52,6 @@ const Teacher = () => {
         <Typography weight="bold" className="text-white">
           Teachers
         </Typography>
-        <Link
-          href={"/dashboard/teacher/add"}
-          className="py-2 px-4 flex gap-2 rounded-full text-sm font-medium text-white bg-blue-500 hover:bg-blue-600"
-        >
-          <UserRoundPen size={20} /> Add Teacher
-        </Link>
       </div>
       <div className="relative overflow-x-auto shadow-md sm:rounded-lg">
         <table className="w-full text-base text-left rtl:text-right text-gray-500 dark:text-gray-400">

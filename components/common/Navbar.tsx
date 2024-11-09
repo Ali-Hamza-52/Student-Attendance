@@ -4,13 +4,12 @@ import Link from "next/link";
 import { Menu, X } from "lucide-react";
 import Image from "next/image";
 import { usePathname } from "next/navigation";
-
+import Cookies from "universal-cookie";
 import { Drawer, DrawerContent, DrawerTrigger } from "@/components/ui/drawer";
 import content from "@/public/json/home.json";
 import { Button } from "../ui/button";
 import { Typography } from "../ui/typography";
 import { getTeacherId } from "@/services/teacher/user";
-import { getCookies } from "@/services/token/tokenService";
 import UserProfile from "./UserProfile";
 
 interface UserType {
@@ -19,22 +18,29 @@ interface UserType {
   address: string;
   contactNumber: string;
   department: string;
-};
+}
 
 const Navbar = () => {
+  const cookies = new Cookies();
   const pathname = usePathname();
   const isAuthPage = pathname === "/login" || pathname === "/signup";
   const [drawerOpen, setDrawerOpen] = useState(false);
   const { navigation, navLinks } = content.header;
   const [user, setUser] = useState<UserType | null>(null);
+  const [userId, setId] = useState<string | null>(null);
 
   const getTeacher = async () => {
     try {
-      const id = await getCookies("teacherId");
-      console.log("user id is", id?.value);
-      if (!id?.value) return;
+      const id = cookies.get("teacherId");
+      if (!id) {
+        return;
+      }
 
-      const response = await getTeacherId(id.value);
+      setId(id);  // No need for `id.value`
+
+      console.log("user id is", id);
+
+      const response = await getTeacherId(id);
       console.log("response: ", response);
 
       if (response.status === 200 && response.teacher) {
@@ -48,7 +54,8 @@ const Navbar = () => {
 
   useEffect(() => {
     getTeacher();
-  }, []);
+  }, []); // Ensure this dependency is appropriate.
+
   useEffect(() => {
     const handleResize = () => {
       if (window.matchMedia("(min-width: 768px)").matches) {
@@ -92,7 +99,7 @@ const Navbar = () => {
       </div>
       <div className={`${isAuthPage ? "hidden" : "md:flex"} hidden gap-5`}>
         {user ? (
-          <UserProfile teacher={user} />       
+          <UserProfile teacher={user} />
         ) : (
           <Button className="rounded-full">
             <Link href={navigation.navigateLogin.href}>

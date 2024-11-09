@@ -28,7 +28,7 @@ const DeleteTeacher = ({ teacherId }: { teacherId: string }) => {
                 text: "The teacher has been deleted.",
                 icon: "success",
               });
-              router.push('/dashboard/teacher');
+              window.location.replace('/dashboard/teacher');
             } else {
               Swal.fire({
                 title: "Error",
