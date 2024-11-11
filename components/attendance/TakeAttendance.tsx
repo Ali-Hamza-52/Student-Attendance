@@ -10,10 +10,12 @@ import { attendanceSchema } from "@/schema/attendanceSchema";
 import useToast from "@/hooks/useToast";
 import { addAttendance } from "@/services/attendance/attendance";
 import { getAllClassStudent } from "@/services/attendance/class";
+import { useRouter } from "next/navigation";
 
 type AttendanceFormValues = z.infer<typeof attendanceSchema>;
 
 const TakeAttendance = ({ id }: { id: string }) => {
+  const router = useRouter();
   const toast = useToast();
   const [students, setStudents] = useState<any[]>([]);
   const [isLoading, setIsLoading] = useState(true);
@@ -40,7 +42,6 @@ const TakeAttendance = ({ id }: { id: string }) => {
     const fetchStudents = async () => {
       try {
         const response = await getAllClassStudent(id);
-        console.log("response: ++", response.data);
         if (response.status === 404 || response?.data?.length === 0) {
           setNoStudents(true);
           setStudents([]);
@@ -79,8 +80,10 @@ const TakeAttendance = ({ id }: { id: string }) => {
       const res = await addAttendance(data);
       if (res.status === 200) {
         toast.showSuccess(res.message);
+        router.push('/attendance')
       } else if (res.status === 409) {
         toast.showError(res.message);
+        router.push('/attendance')
       }
     } catch {
       toast.showError("Failed to add attendance");

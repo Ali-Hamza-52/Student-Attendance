@@ -34,7 +34,6 @@ const studentSchema = new Schema<IStudent>({
   },
   classId: {
     type: String,
-    ref: 'Class',
     required: [true, 'Class ID is required'],
   },
 });

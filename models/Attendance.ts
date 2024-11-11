@@ -32,7 +32,6 @@ const attendanceSchema = new Schema<IAttendance>({
   },
   classId: {
     type: String,
-    ref: "Class",
     required: true,
   },
   students: {
