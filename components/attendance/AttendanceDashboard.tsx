@@ -110,7 +110,7 @@ const AttendanceCalendar = () => {
     <SectionWrapper>
       <Card className="w-full max-w-6xl mx-auto">
         <CardHeader className="space-y-1">
-          <div className="flex justify-between items-center space-x-2">
+          <div className="flex justify-between flex-col sm:flex-row items-center space-x-2 gap-3">
             <div className="flex items-center gap-2">
               <Calendar className="h-5 w-5" />
               <CardTitle>All Student Attendance</CardTitle>
@@ -134,9 +134,9 @@ const AttendanceCalendar = () => {
           {error ? (
             <p className="text-red-500">{error}</p>
           ) : attendanceData ? (
-            <div className="overflow-x-auto">
+            <div className="overflow-x-auto max-h-96 overflow-y-auto">
               <table className="w-full border-collapse">
-                <thead>
+                <thead className="sticky top-0">
                   <tr className="bg-gray-50">
                     <th className="p-3 text-left border text-nowrap">Sr.</th>
                     <th className="p-3 text-left border text-nowrap">
