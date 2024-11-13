@@ -1,115 +1,216 @@
-import React from "react";
-import { ChevronLeft, ChevronRight, ChevronDown } from "lucide-react";
+"use client"
+import React, { useEffect, useState } from "react";
+import { Calendar } from "lucide-react";
+import { Card, CardHeader, CardTitle, CardContent } from "@/components/ui/card";
+import SectionWrapper from "../common/SectionWrapper";
+import { Typography } from "../ui/typography";
 
-type AttendanceStatus = "P" | "A" | "L" | "WK" | "HL" | "CL" | "PL";
+// Interfaces for data structures
+interface Class {
+  _id: string;
+  department: string;
+  className: string;
+  session: string;
+  __v: number;
+}
 
-const AttendanceDashboard = ({ attendance }: any) => {
-  const statusColors: Record<AttendanceStatus, string> = {
-    P: "bg-green-100 text-green-800",
-    A: "bg-red-100 text-red-800",
-    L: "bg-purple-100 text-purple-800",
-    WK: "bg-blue-100 text-blue-800",
-    HL: "bg-cyan-100 text-cyan-800",
-    CL: "bg-orange-100 text-orange-800",
-    PL: "bg-yellow-100 text-yellow-800",
+interface StudentAttendance {
+  rollNumber: string;
+  attendance: "P" | "A" | "L";
+  _id: string;
+}
+
+interface Attendance {
+  _id: string;
+  date: string;
+  classId: string;
+  students: StudentAttendance[];
+  __v: number;
+}
+
+const AttendanceCalendar = () => {
+  const [attendanceData, setAttendanceData] = useState<Attendance[] | null>(null);
+  const [classes, setClasses] = useState<Class[]>([]);
+  const [error, setError] = useState<string>("");
+
+  const getClassAttendance = async (classId?: string) => {
+    if (classId === 'Choose a class') {
+      setAttendanceData(null);
+      return;
+    }
+    const response = await fetch(
+      `https://ggcb-attendance.vercel.app/api/attendance/classAttendance/${classId}`
+    );
+    try {
+      if (!response.ok) {
+        throw new Error(`HTTP error! Status: ${response.status}`);
+      }
+      const data = await response.json();
+      setAttendanceData(data.attendance);
+      console.log("classAttendance", data.attendance);
+    } catch (err) {
+      console.error("Error fetching class attendance:", err);
+      setError("Failed to load attendance data for this class");
+    }
+  }
+
+  const handleClassChange = (event: React.ChangeEvent<HTMLSelectElement>) => {
+    const selectedClassId = event.target.value;
+    getClassAttendance(selectedClassId);
   };
 
-  const daysInMonth = Array.from({ length: 31 }, (_, i) => i + 1);
-
-  // Function to add or update attendance for a specific date
-  const addOrUpdateAttendance = (date: string, rollNumber: string, status: AttendanceStatus) => {
-    // Loop through attendance records to find the matching date
-    for (const record of attendance) {
-      if (new Date(record.date).toLocaleDateString() === new Date(date).toLocaleDateString()) {
-        // If record exists for the same date, update the attendance of the student
-        const student = record.students.find((student: any) => student.rollNumber === rollNumber);
-        if (student) {
-          student.attendance = status; // Update attendance
-        } else {
-          // If student not found, add a new student record for that date
-          record.students.push({
-            rollNumber,
-            attendance: status,
-            _id: { $oid: new Date().toISOString() }, // Generate a unique ID (can be adjusted as per your needs)
-          });
-        }
+  useEffect(() => {
+    const getClasses = async () => {
+      const response = await fetch("https://ggcb-attendance.vercel.app/api/class/allClass");
+      if (!response.ok) {
+        throw new Error(`HTTP error! Status: ${response.status}`);
       }
+      const data = await response.json();
+      setClasses(data.classes);
+      console.log("allClass", data.classes);
+    };
+    const getData = async () => {
+      // try {
+      //   let response = await fetch(
+      //     "https://ggcb-attendance.vercel.app/api/attendance/allAttendance"
+      //   );
+      //   if (!response.ok) {
+      //     throw new Error(`HTTP error! Status: ${response.status}`);
+      //   }
+      //   const data = await response.json();
+      //   setAttendanceData(data.attendance);
+      //   console.log("allAttendance", data.attendance);
+      // } catch (err) {
+      //   console.error("Error fetching attendance data:", err);
+      //   setError("Failed to load attendance data");
+      // }
+    };
+    getData();
+    getClasses();
+  }, []);
+
+  const getStatusColor = (status: string) => {
+    switch (status) {
+      case "P":
+        return "bg-blue-500";
+      case "A":
+        return "bg-red-500";
+      case "L":
+        return "bg-yellow-500";
+      default:
+        return "bg-gray-200";
     }
   };
 
-  return (
-    <div className="w-full min-h-screen bg-gray-50 p-6">
-      <div className="bg-white rounded-lg shadow-sm">
-        <h1 className="text-xl font-semibold p-3">Student Attendance</h1>
+  const getDays = () => {
+    return Array.from({ length: 31 }, (_, i) => i + 1);
+  };
 
-        <div className="p-4 flex items-center justify-between">
-          <div className="flex items-center gap-4">
-            <span className="text-gray-600">{attendance.length} records</span>
+  return (
+    <SectionWrapper>
+      <Card className="w-full max-w-6xl mx-auto">
+        <CardHeader className="space-y-1">
+          <div className="flex justify-between items-center space-x-2">
             <div className="flex items-center gap-2">
-              <button className="p-1 hover:bg-gray-100 rounded">
-                <ChevronLeft className="h-5 w-5" />
-              </button>
-              <button className="p-1 hover:bg-gray-100 rounded">
-                <ChevronRight className="h-5 w-5" />
-              </button>
+              <Calendar className="h-5 w-5" />
+              <CardTitle>All Student Attendance</CardTitle>
+            </div>
+            <select
+              id="classes"
+              className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
+              onChange={handleClassChange}
+            >
+              <option selected>Choose a class</option>
+              {classes &&
+                classes.map((c) => (
+                  <option key={c._id} value={c._id}>
+                    {c.department} - {c.className} - {c.session}
+                  </option>
+                ))}
+            </select>
+          </div>
+        </CardHeader>
+        <CardContent>
+          {error ? (
+            <p className="text-red-500">{error}</p>
+          ) : attendanceData ? (
+            <div className="overflow-x-auto">
+              <table className="w-full border-collapse">
+                <thead>
+                  <tr className="bg-gray-50">
+                    <th className="p-3 text-left border text-nowrap">Sr.</th>
+                    <th className="p-3 text-left border text-nowrap">
+                      Roll No.
+                    </th>
+                    {getDays().map((day) => (
+                      <th key={day} className="p-3 text-center border w-8">
+                        {day}
+                      </th>
+                    ))}
+                  </tr>
+                </thead>
+                <tbody>
+                  {attendanceData[0]?.students.map(
+                    (student: StudentAttendance, index: number) => (
+                      <tr key={student.rollNumber} className="hover:bg-gray-50">
+                        <td className="p-3 border font-medium">{index + 1}</td>
+                        <td className="p-3 border font-medium">
+                          {student.rollNumber}
+                        </td>
+                        {getDays().map((day) => {
+                          const record = attendanceData?.find(
+                            (record: Attendance) =>
+                              new Date(record.date).getDate() === day
+                          );
+                          const status =
+                            record?.students.find(
+                              (s) => s.rollNumber === student.rollNumber
+                            )?.attendance || "";
+
+                          return (
+                            <td key={day} className="border p-1 text-center">
+                              {status && (
+                                <div
+                                  className={`w-6 h-6 rounded-full mx-auto flex items-center justify-center text-white text-xs ${getStatusColor(
+                                    status
+                                  )}`}
+                                >
+                                  {status}
+                                </div>
+                              )}
+                            </td>
+                          );
+                        })}
+                      </tr>
+                    )
+                  )}
+                </tbody>
+              </table>
+            </div>
+          ) : (
+            <div className="flex justify-center p-8">
+              <Typography variant="h4" className="text-blue-500">Please Select Any Class</Typography>
+            </div>
+          )}
+
+          <div className="mt-4 flex gap-4">
+            <div className="flex items-center gap-2">
+              <div className="w-4 h-4 rounded-full bg-blue-500"></div>
+              <span className="text-sm">Present</span>
+            </div>
+            <div className="flex items-center gap-2">
+              <div className="w-4 h-4 rounded-full bg-red-500"></div>
+              <span className="text-sm">Absent</span>
+            </div>
+            <div className="flex items-center gap-2">
+              <div className="w-4 h-4 rounded-full bg-yellow-500"></div>
+              <span className="text-sm">Late</span>
             </div>
           </div>
-          <div className="flex items-center gap-4">
-            <button className="flex items-center gap-2 px-4 py-2 border rounded-md hover:bg-gray-50">
-              <ChevronDown className="h-4 w-4" />
-            </button>
-          </div>
-        </div>
-
-        <div className="overflow-x-auto">
-          <table className="w-full">
-            <thead>
-              <tr className="border-t border-b bg-gray-50">
-                <th className="px-4 py-2 text-left">Student Name</th>
-                {daysInMonth.map((day) => (
-                  <th key={day} className="px-2 py-2 text-center min-w-[40px]">
-                    <div className="text-sm font-medium">{day}</div>
-                    <div className="text-xs text-gray-500">
-                      {new Date(2021, 0, day).toLocaleString("en-US", { weekday: "short" })}
-                    </div>
-                  </th>
-                ))}
-              </tr>
-            </thead>
-            <tbody>
-              {attendance.map((record: any) => (
-                <tr key={record._id} className="border-b hover:bg-gray-50">
-                  <td className="px-4 py-2">
-                    <div className="flex items-center gap-2">
-                      <span>{new Date(record.date).toLocaleDateString()}</span>
-                    </div>
-                  </td>
-
-                  {daysInMonth.map((day) => (
-                    <td key={day} className="px-2 py-2 text-center">
-                      {record.students.map((student: any) => {
-                        const status = student.attendance;
-                        return (
-                          status && (
-                            <span
-                              key={student._id}
-                              className={`inline-block px-2 py-1 text-xs rounded-md `}
-                            >
-                              {status}
-                            </span>
-                          )
-                        );  
-                      })}
-                    </td>
-                  ))}
-                </tr>
-              ))}
-            </tbody>
-          </table>
-        </div>
-      </div>
-    </div>
+        </CardContent>
+      </Card>
+    </SectionWrapper>
   );
 };
 
-export default AttendanceDashboard;
+export default AttendanceCalendar;

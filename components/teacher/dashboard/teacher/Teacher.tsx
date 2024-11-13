@@ -1,6 +1,6 @@
 "use client";
 import SectionWrapper from "@/components/common/SectionWrapper";
-import { UserRoundMinus, UserRoundPen } from "lucide-react";
+import { UserRoundPen } from "lucide-react";
 import React, { useEffect, useState } from "react";
 import TeacherForm from "./TeacherDetail";
 import { Typography } from "@/components/ui/typography";

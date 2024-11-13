@@ -1,45 +1,24 @@
-import mongoose, { Schema, Document, Types } from "mongoose";
+import mongoose, { Schema } from "mongoose";
 
-interface IAttendanceStudent {
-  rollNumber: string;
-  attendance: "P" | "A" | "L";
-}
-
-export interface IAttendance extends Document {
-  date: Date;
-  classId: string;
-  students: IAttendanceStudent[];
-}
-
-const attendanceStudentSchema = new Schema<IAttendanceStudent>({
-  rollNumber: {
-    type: String,
-    required: true,
-  },
-  attendance: {
-    type: String,
-    enum: ["P", "A", "L"],
-    default: "A",
-    required: true,
-  },
-});
-
-const attendanceSchema = new Schema<IAttendance>({
+const attendanceSchema = new Schema({
   date: {
     type: Date,
     required: true,
-    default: Date.now, 
   },
   classId: {
     type: String,
     required: true,
   },
   students: {
-    type: [attendanceStudentSchema],
+    type: [{
+      rollNumber: String,
+      attendance: String,
+    }],
     required: true,
   },
 });
 
-const Attendance = mongoose.models.Attendance || mongoose.model<IAttendance>("Attendance", attendanceSchema);
+
+const Attendance = mongoose.models.Attendance || mongoose.model("Attendance", attendanceSchema);
 
 export default Attendance;

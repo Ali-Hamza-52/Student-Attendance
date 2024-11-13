@@ -71,24 +71,35 @@ export const getAllCollegeAttendance = async () => {
     try {
         await databaseConnection();
         const attendance = await Attendance.find({});
-        if (attendance.length == 0) {
-            return {
-                status: 404,
-                message: "No attendance records found"
-            }
-        }
         return {
             status: 200,
             attendance,
         };
 
     } catch {
-        console.error("Error fetching all college attendance: ");
         return {
-            success: false,
+            status: 500,
             message: "Error fetching all college attendance",
         };
 
+    }
+}
+
+export const getAllAttendance = async () => {
+    try {
+
+        await databaseConnection();
+        const attendance = await Attendance.find({});
+        return {
+            status: 200,
+            attendance,
+        };
+
+    } catch {
+        return {
+            status: 500,
+            message: "Error fetching all attendance",
+        }
     }
 }
 
@@ -127,17 +138,17 @@ export const getAttendanceByDate = async (classId: string, date: string) => {
                 status: 404,
                 message: "No attendance records found for the given date"
             }
-        
+
         }
         return {
             status: 200,
             attendance,
         };
-        
+
     } catch {
         console.error("Error fetching attendance by date: ");
         return {
-            status:500,
+            status: 500,
             message: "Error fetching attendance by date",
         };
     }
