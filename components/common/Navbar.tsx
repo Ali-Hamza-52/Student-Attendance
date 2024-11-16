@@ -11,6 +11,7 @@ import { Button } from "../ui/button";
 import { Typography } from "../ui/typography";
 import { getTeacherId } from "@/services/teacher/user";
 import UserProfile from "./UserProfile";
+import axiosInstance from "@/lib/axiosInstance";
 
 interface UserType {
   email: string;
@@ -29,6 +30,12 @@ const Navbar = () => {
   const [user, setUser] = useState<UserType | null>(null);
   const [userId, setId] = useState<string | null>(null);
 
+  // Define a custom type for the response data
+  interface TeacherResponse {
+    teacher: UserType; // Define what the teacher object should look like
+  }
+
+  // Inside your getTeacher function, specify the expected type of the response
   const getTeacher = async () => {
     try {
       const id = cookies.get("teacherId");
@@ -36,16 +43,20 @@ const Navbar = () => {
         return;
       }
 
-      setId(id);  // No need for `id.value`
+      setId(id);
 
       console.log("user id is", id);
 
-      const response = await getTeacherId(id);
+      // Update this line to specify the response type
+      const response = await axiosInstance.get<TeacherResponse>(
+        `/teacher/${id}`
+      );
+
       console.log("response: ", response);
 
-      if (response.status === 200 && response.teacher) {
-        setUser(response.teacher);
-        localStorage.setItem("teacher", JSON.stringify(response.teacher));
+      if (response.status === 200 && response.data.teacher) {
+        setUser(response.data.teacher);
+        localStorage.setItem("teacher", JSON.stringify(response.data.teacher));
       }
     } catch (error) {
       console.error("Error fetching teacher details:", error);
@@ -138,17 +149,23 @@ const Navbar = () => {
                     key={label}
                     href={href}
                     className="hover:bg-gray-700 px-6 py-2 mx-2 hover:rounded-2xl"
+                    onClick={toggleDrawer}
                   >
                     {label}
                   </Link>
                 ))}
               </div>
               <div
+                className={`${isAuthPage ? "hidden" : "md:flex"} hidden gap-5`}
+              >
+                {user && <UserProfile teacher={user} />}
+              </div>
+              <div
                 className={`${
-                  isAuthPage ? "hidden" : "flex"
+                  isAuthPage || user ? "hidden" : "flex"
                 } flex-col gap-5 px-6`}
               >
-                <Button className="rounded-full">
+                <Button className="rounded-full" onClick={toggleDrawer}>
                   <Link href={navigation.navigateLogin.href}>
                     {navigation.navigateLogin.label}
                   </Link>

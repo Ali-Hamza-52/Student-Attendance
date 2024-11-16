@@ -8,6 +8,7 @@ import { SignupFormInputs, signupSchema } from "@/schema/signup";
 import { postTeacher } from "@/services/teacher/user";
 import useToast from "@/hooks/useToast";
 import { useRouter } from "next/navigation";
+import axiosInstance from "@/lib/axiosInstance";
 
 const Signup = () => {
   const router = useRouter();
@@ -23,8 +24,7 @@ const Signup = () => {
 
   const onSubmit = async (data: SignupFormInputs) => {
     try {
-      const response = await postTeacher(data);
-      console.log(response);
+      const response = await axiosInstance.post('/teacher',data)
       if(response.status === 200){
         toast.showSuccess("Teacher registered successfully");
         router.push("/login")

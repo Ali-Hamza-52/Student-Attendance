@@ -8,6 +8,7 @@ import { LoginFormInputs, loginSchema } from "@/schema/login";
 import useToast from "@/hooks/useToast";
 import { TeacherLogin } from "@/services/teacher/user";
 import { useRouter } from "next/navigation";
+import axiosInstance from "@/lib/axiosInstance";
 const Login = () => {
   const router = useRouter();  
   const toast = useToast();
@@ -22,7 +23,12 @@ const Login = () => {
 
   const onSubmit =async (data: LoginFormInputs) => {
     try{
-      const response = await TeacherLogin (data);
+
+      // const response = await TeacherLogin (data);
+      const response = await axiosInstance.post('/teacher/login',data)
+
+      console.log("login response =====",response); // For testing purposes, remove this line when using axiosInstance.post('/teacher/login',data) in your code.
+
       if(response.status === 200){
         toast.showSuccess("Login successful!");
         window.location.replace("/")

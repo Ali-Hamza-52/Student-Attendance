@@ -7,6 +7,7 @@ import { Typography } from "@/components/ui/typography";
 import Link from "next/link";
 import DeleteTeacher from "./DeleteTeacher";
 import { getTeachers } from "@/services/teacher/user";
+import axiosInstance from "@/lib/axiosInstance";
 
 interface Teacher {
   email: string;
@@ -17,27 +18,30 @@ interface Teacher {
   id: string;
 }
 
+interface TeacherResponse {
+  teachers: Teacher[];
+}
+
 const Teacher = () => {
   const [teachers, setTeachers] = useState<Teacher[]>([]);
 
   useEffect(() => {
     const fetchTeachers = async () => {
       try {
-        const response = await getTeachers();
+        const response = await axiosInstance.get<TeacherResponse>("/teacher");
 
-        const teacherData: Teacher[] =
-          response && response.teachers
-            ? response.teachers.map((teacher) => ({
-                id: teacher.id.toString(), // Ensure `id` is converted to a string if needed
-                email: teacher.email,
-                teacherName: teacher.teacherName,
-                address: teacher.address,
-                contactNumber: teacher.contactNumber,
-                department: teacher.department,
-              }))
-            : [];
+        const teacherData: Teacher[] = response.data.teachers
+          ? response.data.teachers.map((teacher: Teacher) => ({
+              id: teacher.id.toString(),
+              email: teacher.email,
+              teacherName: teacher.teacherName,
+              address: teacher.address,
+              contactNumber: teacher.contactNumber,
+              department: teacher.department,
+            }))
+          : [];
 
-        setTeachers(teacherData); // TypeScript now understands the type of `teachers`
+        setTeachers(teacherData);
       } catch (error) {
         console.error("Error fetching teachers:", error);
       }
