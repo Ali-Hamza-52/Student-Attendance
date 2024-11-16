@@ -1,10 +1,11 @@
-"use client"
+"use client";
 import React, { useEffect, useState } from "react";
 import { Calendar } from "lucide-react";
 import { Card, CardHeader, CardTitle, CardContent } from "@/components/ui/card";
 import SectionWrapper from "../common/SectionWrapper";
 import { Typography } from "../ui/typography";
-
+import axiosInstance from "@/lib/axiosInstance";
+import RotateLines from "../common/loader/RotateLines";
 // Interfaces for data structures
 interface Class {
   _id: string;
@@ -29,63 +30,56 @@ interface Attendance {
 }
 
 const AttendanceCalendar = () => {
-  const [attendanceData, setAttendanceData] = useState<Attendance[] | null>(null);
+  const [attendanceData, setAttendanceData] = useState<Attendance[] | null>(
+    null
+  );
+  const [selectedClassId, setSelectedClassId] =
+    useState<string>("Choose a class");
   const [classes, setClasses] = useState<Class[]>([]);
+  const [loading, setLoading] = useState<boolean>(false);
   const [error, setError] = useState<string>("");
 
   const getClassAttendance = async (classId?: string) => {
-    if (classId === 'Choose a class') {
+    if (classId === "Choose a class") {
       setAttendanceData(null);
       return;
     }
-    const response = await fetch(
-      `https://ggcb-attendance.vercel.app/api/attendance/classAttendance/${classId}`
-    );
-    try {
-      if (!response.ok) {
-        throw new Error(`HTTP error! Status: ${response.status}`);
-      }
-      const data = await response.json();
-      setAttendanceData(data.attendance);
-      console.log("classAttendance", data.attendance);
-    } catch (err) {
-      console.error("Error fetching class attendance:", err);
-      setError("Failed to load attendance data for this class");
-    }
-  }
 
+    setLoading(true);
+    setError("");
+
+    try {
+      const response = await axiosInstance.get(
+        `attendance/classAttendance/${classId}`
+      );
+      setAttendanceData(response.data.attendance);
+    } catch (err) {
+      setError("Failed to load attendance data for this class");
+    } finally {
+      setLoading(false);
+    }
+  };
   const handleClassChange = (event: React.ChangeEvent<HTMLSelectElement>) => {
     const selectedClassId = event.target.value;
+    setSelectedClassId(selectedClassId);
     getClassAttendance(selectedClassId);
   };
 
   useEffect(() => {
+    setLoading(true);
     const getClasses = async () => {
-      const response = await fetch("https://ggcb-attendance.vercel.app/api/class/allClass");
-      if (!response.ok) {
-        throw new Error(`HTTP error! Status: ${response.status}`);
+      setError("");
+
+      try {
+        const response = await axiosInstance.get("class/allClass");
+        setClasses(response.data.classes);
+      } catch (err) {
+        setError("Failed to load class data");
+      } finally {
+        setLoading(false);
       }
-      const data = await response.json();
-      setClasses(data.classes);
-      console.log("allClass", data.classes);
     };
-    const getData = async () => {
-      // try {
-      //   let response = await fetch(
-      //     "https://ggcb-attendance.vercel.app/api/attendance/allAttendance"
-      //   );
-      //   if (!response.ok) {
-      //     throw new Error(`HTTP error! Status: ${response.status}`);
-      //   }
-      //   const data = await response.json();
-      //   setAttendanceData(data.attendance);
-      //   console.log("allAttendance", data.attendance);
-      // } catch (err) {
-      //   console.error("Error fetching attendance data:", err);
-      //   setError("Failed to load attendance data");
-      // }
-    };
-    getData();
+
     getClasses();
   }, []);
 
@@ -115,12 +109,15 @@ const AttendanceCalendar = () => {
               <Calendar className="h-5 w-5" />
               <CardTitle>All Student Attendance</CardTitle>
             </div>
+
             <select
               id="classes"
+              value={selectedClassId}
               className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
               onChange={handleClassChange}
             >
-              <option selected>Choose a class</option>
+              <option value="Choose a class">Choose a class</option>
+
               {classes &&
                 classes.map((c) => (
                   <option key={c._id} value={c._id}>
@@ -131,8 +128,13 @@ const AttendanceCalendar = () => {
           </div>
         </CardHeader>
         <CardContent>
+          {loading && (
+            <div className="flex justify-center py-5">
+              <RotateLines />
+            </div>
+          )}
           {error ? (
-            <p className="text-red-500">{error}</p>
+            <Typography variant="h3" className="text-red-500 py-3 sm:py-5 text-center">{error}</Typography>
           ) : attendanceData ? (
             <div className="overflow-x-auto max-h-96 overflow-y-auto">
               <table className="w-full border-collapse">
@@ -188,9 +190,15 @@ const AttendanceCalendar = () => {
               </table>
             </div>
           ) : (
-            <div className="flex justify-center p-8">
-              <Typography variant="h4" className="text-blue-500">Please Select Any Class</Typography>
-            </div>
+            <>
+              {!loading && (
+                <div className="flex justify-center p-8">
+                  <Typography variant="h4" className="text-blue-500">
+                    Please Select Any Class
+                  </Typography>
+                </div>
+              )}
+            </>
           )}
 
           <div className="mt-4 flex gap-4">
@@ -204,7 +212,7 @@ const AttendanceCalendar = () => {
             </div>
             <div className="flex items-center gap-2">
               <div className="w-4 h-4 rounded-full bg-yellow-500"></div>
-              <span className="text-sm">Late</span>
+              <span className="text-sm">Leave</span>
             </div>
           </div>
         </CardContent>
