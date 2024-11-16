@@ -1,7 +1,7 @@
 import axios, { InternalAxiosRequestConfig } from 'axios';
 
 const axiosInstance = axios.create({
-  baseURL: 'http://ggcb-attendance.vercel.app/api/',
+  baseURL: 'https://ggcb-attendance.vercel.app/api',
   headers: {
     'Content-Type': 'application/json'
   },

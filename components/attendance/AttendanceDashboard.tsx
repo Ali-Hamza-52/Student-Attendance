@@ -50,7 +50,7 @@ const AttendanceCalendar = () => {
 
     try {
       const response = await axiosInstance.get(
-        `attendance/classAttendance/${classId}`
+        `/attendance/classAttendance/${classId}`
       );
       setAttendanceData(response.data.attendance);
     } catch (err) {
@@ -71,7 +71,7 @@ const AttendanceCalendar = () => {
       setError("");
 
       try {
-        const response = await axiosInstance.get("class/allClass");
+        const response = await axiosInstance.get("/class/allClass");
         setClasses(response.data.classes);
       } catch (err) {
         setError("Failed to load class data");
